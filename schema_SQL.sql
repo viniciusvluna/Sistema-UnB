@@ -25,13 +25,13 @@ primary key(turma, professor, cod_disciplina, periodo));
  user_admin char(4) not null);
  
  create table professor(
- id_prof char(10) primary key,
+ id_prof int primary key not null AUTO_INCREMENT,
  nome varchar(100),
- cod_dpto char(10),
+ cod_dpto char(10) not null,
  dpto varchar(50));
  
 create table departamento(
-cod char(10) primary key,
+cod char(10) primary key not null,
 nome varchar(100));
 
 create table disciplinas(
@@ -40,17 +40,17 @@ nome varchar(100),
 cod_depto char(10));
 
 create table matriculas(
-id_mat char(10) not null primary key,
+id_mat int not null primary key AUTO_INCREMENT,
 matricula char(9) not null,
-id_prof char(10) not null,
+id_prof int not null,
 nome_prof varchar(100),
 cod_discip char(10) not null,
 turma int not null,
 periodo char(6) not null);
 
 create table avaliacoes(
-id_av char(50) primary key not null,
-id_prof char(10) not null,
+id_av int primary key not null AUTO_INCREMENT,
+id_prof int not null,
 cod_discip char(10),
 turma int,
 periodo char(6),
@@ -58,17 +58,18 @@ matricula char(9) not null,
 comentario varchar(300) not null);
 
 create table denuncias(
-id_denuncia char(50) primary key not null,
-id_av char(50) not null,
+id_denuncia int primary key not null AUTO_INCREMENT,
+id_av int not null,
 matricula char(9) not null,
 denuncia varchar(300) not null);
+
 
 /* Rodar insert.sql e insert.R */
 
 
 /* Read */
 
-select * from departamento;
+select * from avaliacoes;
 
 select * from denuncias;
 
