@@ -1,6 +1,6 @@
 
 library(pacman)
-pacman::p_load(RMySQL, dplyr, stringr)
+pacman::p_load(RMySQL, dplyr, stringr, tidyverse)
 
 setwd('D:/1Folder/Estatistica/Banco de Dados/Trab/ofertas_sigaa/data/2023.1')
 disciplinas <- read.csv('D:/1Folder/Estatistica/Banco de Dados/Trab/ofertas_sigaa/data/2023.1/disciplinas_2023-1.csv')
@@ -15,6 +15,7 @@ dbListTables(con)
 
 
 
+
 ### Inserindo dados csv
 
 dbSendQuery(con, "SET GLOBAL local_infile = 1")
@@ -25,22 +26,34 @@ dbWriteTable(con, "departamento", departamento, overwrite=T)
 
 dbWriteTable(con, "turma", turma, overwrite=T)
 
-a <- dbReadTable(con, name = 'disciplinas')
+rm(turma, disciplinas, departamento)
 
 
 
+### Grafico das 10 disciplinas mais ofertadas
 
 
+materias <- dbGetQuery(con, "select turma.cod_disciplina, disciplinas.nome
+                                          from turma 
+                                          left join disciplinas on turma.cod_disciplina=disciplinas.cod" )
 
 
+materias <- dbGetQuery(con, 'select nome, count(*) as count 
+                                    from(select turma.cod_disciplina, disciplinas.nome
+                                          from turma 
+                                          left join disciplinas on turma.cod_disciplina=disciplinas.cod) as t
+                                    group by nome
+                                    order by count DESC
+                                    limit 10')
 
 
-
-
-
-
-
-
+materias %>%
+  ggplot(aes(x=fct_reorder(nome, count, .desc = F), y = count), )+
+  geom_col(fill = 'dark blue')+
+  labs(x = 'Materias', y = 'Ofertas')+
+  theme_update(axis.text.x=element_text(size=10))+
+  scale_y_continuous(breaks = seq(0, 100, by = 10))+
+  coord_flip()
 
 
 
