@@ -1,4 +1,4 @@
-uuse banco_unb;
+use banco_unb;
 
 /* Inserts */
 
