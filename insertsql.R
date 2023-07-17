@@ -2,11 +2,11 @@
 library(pacman)
 pacman::p_load(RMySQL, dplyr, stringr, tidyverse)
 
-setwd('D:/1Folder/Estatistica/Banco de Dados/Trab/ofertas_sigaa/data/2023.1')
+setwd('D:/1Folder/Estatistica/Banco de Dados/Trab/ofertas_sigaa/data/2023.1') # Importando os arquivos csv para o R
 disciplinas <- read.csv('D:/1Folder/Estatistica/Banco de Dados/Trab/ofertas_sigaa/data/2023.1/disciplinas_2023-1.csv')
 departamento <- read.csv('D:/1Folder/Estatistica/Banco de Dados/Trab/ofertas_sigaa/data/2023.1/departamentos_2023-1.csv')
 turma <- read.csv('D:/1Folder/Estatistica/Banco de Dados/Trab/ofertas_sigaa/data/2023.1/turmas_2023-1.csv')
-turma$professor <- str_sub(turma$professor, start = 1, end = -6)
+turma$professor <- str_sub(turma$professor, start = 1, end = -6) # Retirando a carga horario dos nomes dos professores 
 
 
 con = dbConnect(RMySQL::MySQL(), user = 'root', password = '1234', dbname = 'banco_unb', host = 'localhost')
